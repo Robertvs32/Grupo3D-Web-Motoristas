@@ -1,0 +1,49 @@
+#homeContainer{
+    background-color: rgb(14, 13, 13);
+    height: 100%;
+    width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-top: calc(5px + env(safe-area-inset-top));
+    padding-bottom: calc(3px + env(safe-area-inset-bottom));
+    align-items: center;
+}
+#containerBtnsHome{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.btnHome{
+    background-color: rgb(252, 113, 0);
+    width: 49%;
+    height: 40px;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+
+}
+#btnLogout{
+    background-color: rgb(14, 13, 13);
+    border-radius: 5px;
+    border: none;
+    width: 32px;
+    height: 32px;
+    align-self: start;
+    margin-top: 8px;
+}
+#logoutIcon{
+    height: 100%;
+    width: 100%;
+}
+#logoImg{
+    width: 62%;
+    margin-bottom: 300px;
+}
