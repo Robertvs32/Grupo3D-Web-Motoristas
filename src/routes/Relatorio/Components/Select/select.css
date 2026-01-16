@@ -1,13 +1,12 @@
 .containerSelectRelatorio{
     display: flex;
     flex-direction: column;
-    width: 210px;
+    width: 100%;
     border: 2px solid white;
-    margin: 7px;
-    max-height: 200px;
-    min-height: 67px;
+    height: 68px;
     border-radius: 5px;
     padding: 2px;
+    margin-bottom: 10px;
 }
 .labelSelectRelatorio{
     background-color: var(--cor-principal);

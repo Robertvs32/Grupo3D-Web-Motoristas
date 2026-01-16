@@ -1,6 +1,6 @@
 import '../select.css';
 import { useState, useEffect } from 'react';
-import useRelatorio from '../../../../../hooks/useRelatorio';
+import useRelatorio from '../../../../../Hooks/useRelatorio';
 
 export default function Setor({state, setter}){
 

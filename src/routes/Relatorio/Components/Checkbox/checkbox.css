@@ -1,7 +1,7 @@
 .checkBoxContainer{
     display: flex;
     flex-direction: column;
-    width: 210px;
+    width: 100%;
     border: 2px solid white;
     border-radius: 5px;
     height: 68px;
@@ -55,10 +55,4 @@
     font-size: 12px;
     background-color: red;
     cursor: pointer;
-}
-
-@media(max-width: 508px){
-    .checkBoxContainer{
-        width: 100%;
-    }
 }

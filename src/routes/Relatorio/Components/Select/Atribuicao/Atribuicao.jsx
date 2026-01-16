@@ -1,5 +1,5 @@
 import '../select.css';
-import useRelatorio from '../../../../../hooks/useRelatorio';
+import useRelatorio from '../../../../../Hooks/useRelatorio';
 import { useEffect, useState } from 'react';
 
 export default function Atribuicao({state, setter}){

@@ -3,9 +3,13 @@
     flex-direction: column;
     max-width: 2000px;
     border: 2px solid white;
-    margin-top: 20px;
+    margin-top: 10px;
     border-radius: 5px;
     padding: 2px;
+}
+
+.containerObsRelatorio:focus-within{
+    margin-bottom: 100px;
 }
 
 .labelObsRelatorio{

@@ -1,6 +1,6 @@
 import '../select.css';
 import { useEffect, useState } from 'react';
-import usePlacas from '../../../../../hooks/usePlacas';
+import usePlacas from '../../../../../Hooks/usePlacas';
 
 export default function Placa({state, setter}){
 

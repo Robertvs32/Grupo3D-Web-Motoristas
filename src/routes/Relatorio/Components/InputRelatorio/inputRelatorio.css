@@ -1,14 +1,13 @@
 .containerInputRelatorio{
     display: flex;
     flex-direction: column;
-    width: var(--larguraEditarRelatorio);
+    width: 100%;
     border: 2px solid white;
     border-radius: 2px;
-    margin: 7px;
-    max-height: 200px;
-    min-height: 67px;
+    height: 68px;
     border-radius: 5px;
     padding: 2px;
+    margin-bottom: 10px;
 }
 .labelInputRelatorio{
     background-color: var(--cor-principal);
