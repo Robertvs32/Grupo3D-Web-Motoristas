@@ -1,4 +1,4 @@
-import { doc, getDoc, addDoc, collection } from "firebase/firestore";
+import { doc, getDoc, addDoc, collection, query, getDocs, setDoc, where } from "firebase/firestore";
 import { db } from "../Config/firebaseConfig";
 import { useState } from "react";
 
@@ -28,7 +28,9 @@ export default function useRelatorio(){
     const [outrosAtribuicao, setOutrosAtribuicao] = useState('');
     const [outrosSetor, setOutrosSetor] = useState('');
     const [alimentacao, setAlimentacao] = useState('');
-    const [arrayAlimentacao, setArrayAlimentacao] = useState([]);
+    const [arrayAlimentacao, setArrayAlimentacao] = useState([
+        { id: 1, refeicao: '', valor: '' }
+    ]);
     const [verificado, setVerificado] = useState('');
     const [horasTrabalhadas, setHorasTrabalhadas] = useState('');
     const [foraPerimetro, setForaPerimetro] = useState('');
@@ -94,6 +96,16 @@ export default function useRelatorio(){
         setForaPerimetro
     }
 
+    const salvarUltimoRelatorio = async (uid) => {
+        try{
+            const docRef = doc(db, "relatorios salvos", uid)
+            await setDoc(docRef, valores);
+            return {message: "Ok"}
+        }catch(error){
+            throw error;
+        }
+    }
+
     const buscaAtribuicoes = async () => {
         const docRef = doc(db, "atribuicoes", "IgxVe1QYFBXPgbZxxh89");
         const docSnapShot = await getDoc(docRef);
@@ -102,12 +114,28 @@ export default function useRelatorio(){
         return atribuicoes.atribuicoes;
     }
 
+    const buscaRelatorioSalvo = async (uid) => {
+        const docRef = doc(db, "relatorios salvos", uid);
+        const docSnapshot = await getDoc(docRef);
+        const data = docSnapshot.data();
+        return data;
+    }
+
     const buscaSetor = async () => {
         const docRef = doc(db, "setor", "setor");
         const docSnapShot = await getDoc(docRef);
         const setor = docSnapShot.data();
 
         return setor.setores;
+    }
+
+    const buscaNomePorEmail = async (email) => {
+        const colecao = collection(db, "users");
+        const q = query(colecao, where("email", "==", email))
+        const querySnapshot = await getDocs(q);
+        const nome = querySnapshot.docs[0].data().user;
+
+        return nome;
     }
 
     const enviaFormulario = async () => {
@@ -138,8 +166,8 @@ export default function useRelatorio(){
         job,
         produtorEmpresa,
         produtorPessoa,
-        kmIni,
-        kmFim,
+        kmIni: Number(kmIni),
+        kmFim: Number(kmFim),
         zonaAzul,
         qtdZonaAzul,
         valorZonaAzul,
@@ -197,6 +225,10 @@ export default function useRelatorio(){
         buscaSetor,
         relatorioGetters,
         relatorioSetters,
+        buscaNomePorEmail,
+        salvarUltimoRelatorio,
+        buscaRelatorioSalvo,
+        recuperaValues
     }
 
 }

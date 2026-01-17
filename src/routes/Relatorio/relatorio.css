@@ -5,3 +5,18 @@
     padding: 8px;
     overflow-x: hidden
 }
+#containerBtns{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.btnRelatorio{
+    height: 40px;
+    width: 49%;
+    margin-top: 10px;
+    margin-bottom: env(safe-area-inset-bottom);
+    color: black;
+    background-color: white;
+    border-radius: 4px;
+    font-weight: bold;
+}

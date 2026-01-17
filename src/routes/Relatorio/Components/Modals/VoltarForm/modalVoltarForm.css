@@ -1,0 +1,52 @@
+#containerModalEnviarForm{
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.726);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#containerModalIntern{
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    height: 130px;
+    background-color: rgb(255, 255, 255);
+    justify-content: space-around;
+    border-radius: 6px;
+    align-items: center
+}
+#containerBtnsModalEnviar{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+}
+#buttonModalVoltar, #buttonModalCancelar, #buttonModalSalvar{
+    font-weight: bold;
+    padding: 8px 5px;
+    margin: 2px;
+    font-size: 12px;
+    border-radius: 5px;
+    border: none;
+}
+#buttonModalCancelar{
+    background-color: red;
+    color: white
+}
+#buttonModalVoltar{
+    background-color: rgb(70, 70, 70);
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+}
+
+#buttonModalSalvar{
+    background-color: rgb(13, 161, 0);
+    color: rgb(255, 255, 255);
+}
+

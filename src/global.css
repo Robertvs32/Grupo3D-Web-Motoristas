@@ -4,12 +4,14 @@
     box-sizing: border-box;
     font-family: "Sora", sans-serif;
 }
-input[type="date"]::-webkit-clear-button,
-input[type="time"]::-webkit-clear-button,
-input[type="time"]::-webkit-datetime-edit-clear-button,
-input[type="time"]::-webkit-datetime-edit-clear-button{
-    display: none !important;
+input,
+textarea,
+button,
+select,
+a {
     -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
 }
 html{
     width: 100%;

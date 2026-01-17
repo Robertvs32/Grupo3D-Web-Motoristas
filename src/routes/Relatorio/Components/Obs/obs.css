@@ -8,10 +8,6 @@
     padding: 2px;
 }
 
-.containerObsRelatorio:focus-within{
-    margin-bottom: 100px;
-}
-
 .labelObsRelatorio{
     background-color: var(--cor-principal);
     padding: 4px;
