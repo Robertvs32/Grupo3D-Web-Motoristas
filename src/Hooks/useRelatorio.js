@@ -138,11 +138,11 @@ export default function useRelatorio(){
         return nome;
     }
 
-    const enviaFormulario = async () => {
+    const enviarFormulario = async () => {
         try{
             const colecao = collection(db, "relatorios");
             const docRef = await addDoc(colecao, valores);
-            alert(`Formulario enviado com sucesso! ${docRef.id}`);
+            alert(`Enviado com sucesso! ${docRef.id}`);
         }catch(error){
             alert(error)
         }
@@ -228,7 +228,8 @@ export default function useRelatorio(){
         buscaNomePorEmail,
         salvarUltimoRelatorio,
         buscaRelatorioSalvo,
-        recuperaValues
+        recuperaValues,
+        enviarFormulario
     }
 
 }

@@ -24,7 +24,16 @@ export default function Relatorio(){
     const flagBoolean = flag.toLowerCase() === "true";
     const [showModalEnviar, setShowModalEnviar] = useState(false);
     const [showModalVoltar, setShowModalVoltar] = useState(false);
-    const { buscaNomePorEmail, relatorioGetters, relatorioSetters, salvarUltimoRelatorio, buscaRelatorioSalvo, recuperaValues } = useRelatorio();
+    const { 
+        buscaNomePorEmail, 
+        relatorioGetters, 
+        relatorioSetters, 
+        salvarUltimoRelatorio, 
+        buscaRelatorioSalvo, 
+        recuperaValues,
+        enviarFormulario
+    } = useRelatorio();
+
     const { user } = useContext(AuthContext);
 
     const salvarVoltar = async () => {
@@ -218,6 +227,10 @@ export default function Relatorio(){
             {showModalEnviar && (
                 <ModalEnviarForm
                     setter={setShowModalEnviar}
+                    funcaoEnviar={ async () => {
+                        setShowModalEnviar(ant => !ant);
+                        await enviarFormulario();
+                    }}
                 />
             )}
 

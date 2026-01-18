@@ -17,7 +17,7 @@ export default function ModalEnviarForm({setter, funcaoEnviar}){
                 </button>
                 <button
                     className="buttonModalEnviar"
-                    onClick={() => funcaoEnviar}
+                    onClick={funcaoEnviar}
                 >
                     Enviar
                 </button>
