@@ -2,30 +2,52 @@ import '../select.css';
 import { useEffect, useState } from 'react';
 import usePlacas from '../../../../../Hooks/usePlacas';
 
-export default function Placa({state, setter}){
+export default function Placa({state, setter, setDadosPlaca}){
 
     const { buscaPlacas } = usePlacas();
-    const [placas, setPlacas] = useState([]);
+    const [infosVeiculos, setInfosVeiculos] = useState([]);
+
+    function alteraPlaca(event){
+        const id = event.target.value;
+        setter(id);
+        console.log(id);
+    } 
 
     useEffect(() => {
         const busca = async () => {
             let arrayPlacas = await buscaPlacas();
-            setPlacas(arrayPlacas);
+            setInfosVeiculos(arrayPlacas);
         }
 
         busca();
-    }, [])
+    }, []);
+
+    useEffect(() => {
+        if(state != ''){
+            const objPlaca = infosVeiculos.find(item => 
+                Number(state) == item.id
+            );
+            const objPlacaFormatado = {
+                veiculo: objPlaca.carro,
+                placa: objPlaca.placa
+            }
+            console.log(objPlacaFormatado)
+            setDadosPlaca(objPlacaFormatado);
+        }
+        
+    }, [state]);
 
     return(
         <div className="containerSelectRelatorio">
             <label className="labelSelectRelatorio">Placa</label>
-            <select 
+            <select
                 className="selectRelatorio"
-                onChange={(event) => {setter(event.target.value)}}
-                value={state}
+                onChange={event => alteraPlaca(event)}
+                value={state == '' ? state : Number(state)}
             >
-                {placas.map((opcao => (
-                    <option value={opcao.placa}>{opcao.placa}</option>
+                <option value='' disabled>Selecionar veículo</option>
+                {infosVeiculos.map((opcao => (
+                    <option value={opcao.id}>{`${opcao.carro} - ${opcao.placa}`}</option>
                 )))}
             </select>
         </div>

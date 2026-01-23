@@ -25,7 +25,7 @@ export default function Setor({state, setter}){
                 value={state}
             >
 
-                <option value="Selecionar setor" disabled>Selecionar setor</option>
+                <option value='' disabled>Selecionar setor</option>
 
                 {setor.map((opcao => (
                     <option value={opcao}>{opcao}</option>

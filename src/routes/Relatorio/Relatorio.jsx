@@ -64,7 +64,7 @@ export default function Relatorio(){
             }
         }
         busca();
-    }, [user, flagBoolean])
+    }, [user, flagBoolean]);
 
     return(
         <div id="relatorioContainer">
@@ -105,14 +105,14 @@ export default function Relatorio(){
 
             <InputRelatorio
                 name="Contratante"
-                value={relatorioGetters.produtorEmpresa}
-                setter={relatorioSetters.setProdutorEmpresa}
+                value={relatorioGetters.contratante}
+                setter={relatorioSetters.setContratante}
             />
 
             <InputRelatorio
-                name="Produtor(a)"
-                value={relatorioGetters.produtorPessoa}
-                setter={relatorioSetters.setProdutorPessoa}
+                name="Produtora empresa"
+                value={relatorioGetters.produtoraEmpresa}
+                setter={relatorioSetters.setProdutoraEmpresa}
             />
 
             <Checkbox
@@ -193,8 +193,9 @@ export default function Relatorio(){
             />
 
             <Placa
-                state={relatorioGetters.placa}
-                setter={relatorioSetters.setPlaca}
+                state={relatorioGetters.idVeiculo}
+                setter={relatorioSetters.setIdVeiculo}
+                setDadosPlaca={relatorioSetters.setDadosPlaca}
             />
 
             {relatorioGetters.alimentacao && (
@@ -240,8 +241,6 @@ export default function Relatorio(){
                     funcaoSalvarVoltar={salvarVoltar}
                 />
             )}
-            
-
         </div>
     )
 }

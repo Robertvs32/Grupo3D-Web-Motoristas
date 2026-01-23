@@ -4,15 +4,17 @@ import { useState } from "react";
 
 export default function useRelatorio(){
 
-    const [motorista, setMotorista] = useState('');
+    const [produtoraEmpresa, setProdutoraEmpresa] = useState('');
+    const [job, setJob] = useState('');
+    const [contratante, setContratante] = useState('');
     const [dateTimeIni, setDateTimeIni] = useState(new Date);
     const [dateTimeFim, setDateTimeFim] = useState(new Date);
+    const [atribuicao, setAtribuicao] = useState('');
+    const [motorista, setMotorista] = useState('');
     const [obs, setObs] = useState('');
     const [estacionamento, setEstacionamento] = useState('');
     const [valorEstacionamento, setValorEstacionamento] = useState('');
-    const [job, setJob] = useState('');
-    const [produtorEmpresa, setProdutorEmpresa] = useState('');
-    const [produtorPessoa, setProdutorPessoa] = useState('');
+    const [idVeiculo, setIdVeiculo] = useState('');
     const [kmIni, setKmIni] = useState('');
     const [kmFim, setKmFim] = useState('');
     const [zonaAzul, setZonaAzul] = useState('');
@@ -22,8 +24,6 @@ export default function useRelatorio(){
     const [pedagio, setPedagio] = useState('');
     const [parceiro, setParceiro] = useState('');
     const [valorPedagioParceiro, setValorPedagioParceiro] = useState('');
-    const [placa, setPlaca] = useState('');
-    const [atribuicao, setAtribuicao] = useState('');
     const [setor, setSetor] = useState('');
     const [outrosAtribuicao, setOutrosAtribuicao] = useState('');
     const [outrosSetor, setOutrosSetor] = useState('');
@@ -31,9 +31,9 @@ export default function useRelatorio(){
     const [arrayAlimentacao, setArrayAlimentacao] = useState([
         { id: 1, refeicao: '', valor: '' }
     ]);
-    const [verificado, setVerificado] = useState('');
-    const [horasTrabalhadas, setHorasTrabalhadas] = useState('');
     const [foraPerimetro, setForaPerimetro] = useState('');
+    const [viagem, setViagem] = useState('');
+    const [dadosPlaca, setDadosPlaca] = useState('');
 
     const relatorioGetters = {
         motorista,
@@ -43,8 +43,8 @@ export default function useRelatorio(){
         estacionamento,
         valorEstacionamento,
         job,
-        produtorEmpresa,
-        produtorPessoa,
+        produtoraEmpresa,
+        contratante,
         kmIni,
         kmFim,
         zonaAzul,
@@ -54,16 +54,15 @@ export default function useRelatorio(){
         pedagio,
         parceiro,
         valorPedagioParceiro,
-        placa,
+        idVeiculo,
         atribuicao,
         setor,
         outrosAtribuicao,
         outrosSetor,
         alimentacao,
         arrayAlimentacao,
-        verificado,
-        horasTrabalhadas,
-        foraPerimetro
+        foraPerimetro,
+        viagem,
     }
 
     const relatorioSetters = {
@@ -74,8 +73,8 @@ export default function useRelatorio(){
         setEstacionamento,
         setValorEstacionamento,
         setJob,
-        setProdutorEmpresa,
-        setProdutorPessoa,
+        setProdutoraEmpresa,
+        setContratante,
         setKmIni,
         setKmFim,
         setZonaAzul,
@@ -85,21 +84,22 @@ export default function useRelatorio(){
         setPedagio,
         setParceiro,
         setValorPedagioParceiro,
-        setPlaca,
+        setIdVeiculo,
         setAtribuicao,
         setSetor,   
         setOutrosAtribuicao,
         setOutrosSetor,
         setAlimentacao,
         setArrayAlimentacao,
-        setVerificado,
-        setForaPerimetro
+        setForaPerimetro,
+        setViagem,
+        setDadosPlaca
     }
 
     const salvarUltimoRelatorio = async (uid) => {
         try{
             const docRef = doc(db, "relatorios salvos", uid)
-            await setDoc(docRef, valores);
+            await setDoc(docRef, relatorioGetters);
             return {message: "Ok"}
         }catch(error){
             throw error;
@@ -138,13 +138,56 @@ export default function useRelatorio(){
         return nome;
     }
 
+    const verificaCampos = () => {
+        const campos = [
+            {valor: produtoraEmpresa, nome: "Produtora Empresa"},
+            {valor: job, nome: "Job"},
+            {valor: contratante, nome: "Contratante"},
+            {valor: atribuicao, nome: "Atribuicao"},
+            {valor: motorista, nome: "Motorista"},
+            {valor: estacionamento, nome: "Estacionamento"},
+            {valor: kmIni, nome: "Km Inicial"},
+            {valor: kmFim, nome: "Km final"},
+            {valor: zonaAzul, nome: "Zona azul"},
+            {valor: inversor, nome: "Inversor"},
+            {valor: pedagio, nome: "Pedagio"},
+            {valor: parceiro, nome: "parceiro"},
+            {valor: setor, nome: "Setor"},
+            {valor: alimentacao, nome: "Alimentacao"}
+        ];
+
+        const valoresInvalidos = [
+            '',
+            'Selecionar veículo',
+            'Selecionar setor',
+            'Selecionar atribuição',
+        ]
+
+        const erros = [];
+
+        campos.forEach(item => {
+            const valorLimpo = String(item.valor ?? '').trim();
+            if(valoresInvalidos.includes(valorLimpo)){
+                erros.push(item.nome);
+            }
+        })
+
+        if(erros.length == 1){
+            throw new Error(`Preencha o campo: ${erros[0]}`);
+        }
+        if(erros.length != 0){
+            throw new Error(`Preencha os campos: ${erros.join(', ')}`);
+        }
+    }
+
     const enviarFormulario = async () => {
         try{
+            verificaCampos();
             const colecao = collection(db, "relatorios");
             const docRef = await addDoc(colecao, valores);
             alert(`Enviado com sucesso! ${docRef.id}`);
         }catch(error){
-            alert(error)
+            alert(error.message)
         }
     }
 
@@ -154,18 +197,28 @@ export default function useRelatorio(){
     const dateFim = new Date(dateTimeFim);
     dateFim.setHours(0, 0, 0, 0);
 
+    const horasTotais = (dateTimeFim - dateTimeIni) / 3600000;
+    const horasTotaisMotorista = horasTotais > 10 ? horasTotais : 10;
+    const horasTotaisCliente = horasTotais > 8 ? horasTotais : 8;
+
     const valores = {
+        dadosPlaca,
+        produtoraEmpresa,
+        job,
+        contratante,
         dateIni,
         dateFim,
+        atribuicao,
+        setor,
         motorista,
         dateTimeIni,
         dateTimeFim,
+        horasTotaisMotorista,
+        horasTotaisCliente,
+        kmRodado: kmFim - kmIni,
         obs,
         estacionamento,
         valorEstacionamento,
-        job,
-        produtorEmpresa,
-        produtorPessoa,
         kmIni: Number(kmIni),
         kmFim: Number(kmFim),
         zonaAzul,
@@ -174,20 +227,16 @@ export default function useRelatorio(){
         inversor,
         pedagio,
         parceiro,
-        valorPedagioParceiro,
-        placa,
         atribuicao,
-        setor,
         outrosAtribuicao,
+        setor,
         outrosSetor,
         foraPerimetro,
+        viagem,
         alimentacao,
         ...(alimentacao === true && {arrayAlimentacao: arrayAlimentacao}),
-        ...(verificado == "true" || verificado == true ? { verificado: true } : { verificado: false }),
-        horasTrabalhadas: (dateTimeFim - dateTimeIni) / 3600000,
-        kmRodado: kmFim - kmIni
+        verificado: false
     }
-
 
     const recuperaValues = (object) => {
         setMotorista(object.motorista);
@@ -195,11 +244,10 @@ export default function useRelatorio(){
         setEstacionamento(object.estacionamento);
         setValorEstacionamento(object.valorEstacionamento);
         setJob(object.job);
-        setProdutorEmpresa(object.produtorEmpresa);
-        setProdutorPessoa(object.produtorPessoa);
+        setProdutoraEmpresa(object.produtoraEmpresa);
+        setContratante(object.contratante);
         setAlimentacao(object.alimentacao);
         setArrayAlimentacao(object.arrayAlimentacao ?? [{id: 1, refeicao: '', valor: ''}]);
-        setVerificado(object.verificado);
         setKmIni(object.kmIni);
         setKmFim(object.kmFim);
         setOutrosAtribuicao(object.outrosAtribuicao);
@@ -207,7 +255,7 @@ export default function useRelatorio(){
         setParceiro(object.parceiro);
         setPedagio(object.pedagio);
         setValorPedagioParceiro(object.valorPedagioParceiro);
-        setPlaca(object.placa);
+        setIdVeiculo(object.idVeiculo);
         setSetor(object.setor);
         setQtdZonaAzul(object.qtdZonaAzul);
         setValorZonaAzul(object.valorZonaAzul);
@@ -216,7 +264,6 @@ export default function useRelatorio(){
         setDateTimeIni(object.dateTimeIni.toDate());
         setDateTimeFim(object.dateTimeFim.toDate());
         setAtribuicao(object.atribuicao);
-        setHorasTrabalhadas(object.horasTrabalhadas)
         setForaPerimetro(object.foraPerimetro)
     }
 
